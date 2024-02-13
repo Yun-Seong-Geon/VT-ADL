@@ -132,9 +132,8 @@ def Test_normal_data(root, product= 'bottle', use_good = True):
         if product == d:
             pth_img = read_files(root, d, product,data_motive='test',use_good = True, normal = True)
             return pth_img
-    
-                      
-def Train_data(root, product = 'bottle', use_good = True):
+
+def Train_data(root = '/Users/yunseong-geon/Desktop/yanus/pdf_AI Img', product = 'bottle', use_good = True):
     '''
     return the path of the train directory and list of train images
     
@@ -169,7 +168,7 @@ def ran_generator(length, shots=1):
         
         
 class Mvtec:
-    def __init__(self, batch_size,root="D:\\second year\\mvtec_anomaly_detection", product= 'bottle'):
+    def __init__(self, batch_size,root="/Users/yunseong-geon/Desktop/yanus/pdf_AI Img", product= 'bottle'):
         self.root = root
         self.batch = batch_size
         self.product = product
@@ -177,8 +176,10 @@ class Mvtec:
         if self.product == 'all':
             print('--------Please select a valid product.......See Train_data function-----------')
         else:
-         # Importing all the image_path dictionaries for  test and train data #
-            train_path_images =Train_data(root = self.root, product = self.product)
+            # Importing all the image_path dictionaries for  test and train data #
+            train_path_images = Train_data(root = self.root, product = self.product)
+            if train_path_images is None:
+                raise Exception(self.root,'Train_data function returned None. Please check the directory structure.')
             test_anom_path_images = Test_anom_data(root = self.root, product=self.product)
             test_anom_mask_path_images = Test_anom_mask(root = self.root, product = self.product)
             test_norm_path_images = Test_normal_data(root= self.root, product = self.product)
@@ -226,20 +227,17 @@ class Mvtec:
             
 if __name__ == "__main__":
     
-    root = "D:\\second year\\mvtec_anomaly_detection"
+    root = '/Users/yunseong-geon/Desktop/yanus/pdf_AI Img'
     # print('======== All Normal Data ============')
     # Train_data(root, 'all')
     # print('======== All Anomaly Data ============')
     # Test_anom_data(root,'all')    
-          
-    train = Mvtec(1,root,'bottle')
+
+
+    train = Mvtec(1,root,'all')
     for i, j in train.test_anom_loader:
         print(i.shape)
         plt.imshow(i.squeeze(0).permute(1,2,0))
         plt.show
         break
-    
-        
-                           
-                            
-                
+
