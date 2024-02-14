@@ -133,7 +133,7 @@ def Test_normal_data(root, product= 'bottle', use_good = True):
             pth_img = read_files(root, d, product,data_motive='test',use_good = True, normal = True)
             return pth_img
 
-def Train_data(root = '/Users/yunseong-geon/Desktop/yanus/pdf_AI Img', product = 'bottle', use_good = True):
+def Train_data(root, product = 'bottle', use_good = True):
     '''
     return the path of the train directory and list of train images
     
@@ -168,7 +168,7 @@ def ran_generator(length, shots=1):
         
         
 class Mvtec:
-    def __init__(self, batch_size,root="/Users/yunseong-geon/Desktop/yanus/pdf_AI Img", product= 'bottle'):
+    def __init__(self, batch_size,root="pdf_AI Img", product= 'bottle'):
         self.root = root
         self.batch = batch_size
         self.product = product
@@ -190,7 +190,7 @@ class Mvtec:
                 transforms.Resize((550,550)),
                 transforms.CenterCrop(512),
                 transforms.ToTensor(),
-    #            transforms.Normalize((0.1307,), (0.3081,)),
+                transforms.Normalize((0.1307,), (0.3081,)),
             ])
             train_normal_image = torch.stack([T(load_images(j,i)) for j in train_path_images.keys() for i in train_path_images[j]])
             test_anom_image = torch.stack([T(load_images(j,i)) for j in test_anom_path_images.keys() for i in test_anom_path_images[j]])
@@ -227,7 +227,7 @@ class Mvtec:
             
 if __name__ == "__main__":
     
-    root = '/Users/yunseong-geon/Desktop/yanus/pdf_AI Img'
+    root = 'pdf_AI Img'
     # print('======== All Normal Data ============')
     # Train_data(root, 'all')
     # print('======== All Anomaly Data ============')
